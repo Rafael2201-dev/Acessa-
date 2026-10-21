@@ -1,0 +1,77 @@
+ * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f1f5f9;
+            color: #0f172a;
+        }
+
+        header {
+            background-color: #0f172a;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #38bdf8;
+        }
+
+        main {
+            width: 90%;
+            max-width: 600px;
+            margin: 40px auto;
+        }
+
+        .introducao {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .painel {
+            background-color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px #00000010;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin: 20px 0 8px;
+        }
+
+        select, input, button {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        select, input {
+            border: 1px solid #cbd5e1;
+            background-color: white;
+        }
+
+        button {
+            margin-top: 24px;
+            border: none;
+            background-color: #0284c7;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0369a1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+        }

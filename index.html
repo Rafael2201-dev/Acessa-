@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acessaí - Acessibilidade para todos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>Acessaí</h1>
+        <p>Acessibilidade para todos</p>
+    </header>
+
+    <main>
+        <section class="introducao">
+            <h2>Seu destino, do seu jeito.</h2>
+            <p>
+                Planeje seu caminho considerando suas
+                necessidades de acessibilidade.
+            </p>
+        </section>
+
+        <section class="painel">
+            <form id="formulario">
+
+                <label for="perfil">Qual é o seu perfil?</label>
+
+                <select id="perfil" required>
+                    <option value="">Selecione uma opção</option>
+                    <option value="cadeira-rodas">
+                        Pessoa que usa cadeira de rodas
+                    </option>
+                    <option value="visual">
+                        Pessoa com deficiência visual
+                    </option>
+                    <option value="auditiva">
+                        Pessoa com deficiência auditiva
+                    </option>
+                    <option value="mobilidade">
+                        Pessoa com dificuldade de mobilidade
+                    </option>
+                    <option value="outras">
+                        Outras necessidades
+                    </option>
+                </select>
+
+                <label for="destino">Para onde você quer ir?</label>
+
+                <input
+                    type="text"
+                    id="destino"
+                    placeholder="Ex.: restaurante, faculdade..."
+                    required
+                >
+
+                <button type="submit">
+                    Consultar acessibilidade
+                </button>
+
+            </form>
+
+            <p id="mensagem" role="status" aria-live="polite"></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>Projeto Acessaí — Acessibilidade para todos.</p>
+    </footer>
+
+    <script>
+        const formulario = document.getElementById("formulario");
+
+        formulario.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const perfil = document.getElementById("perfil").value;
+            const destino = document.getElementById("destino").value;
+
+            document.getElementById("mensagem").textContent =
+                "Perfil selecionado: " + perfil +
+                ". Destino escolhido: " + destino +
+                ". Próximo passo: consultar os dados de acessibilidade.";
+        });
+    </script>
+
+</body>
+</html>
