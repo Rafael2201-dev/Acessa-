@@ -85,6 +85,50 @@
                 ". Destino escolhido: " + destino;
         });
     </script>
+    
+<section>
+    <h2>Locais cadastrados</h2>
+    <div id="lista-locais">Carregando locais...</div>
+</section>
+
+<script>
+    async function carregarLocais() {
+        const lista = document.getElementById('lista-locais');
+
+        try {
+            const resposta = await fetch('/locais');
+
+            if (!resposta.ok) {
+                throw new Error('Erro ao buscar locais');
+            }
+
+            const locais = await resposta.json();
+
+            if (locais.length === 0) {
+                lista.textContent = 'Nenhum local cadastrado.';
+                return;
+            }
+
+            lista.replaceChildren();
+
+            locais.forEach(local => {
+                const item = document.createElement('article');
+                const titulo = document.createElement('h3');
+
+                titulo.textContent = local.nome ?? 'Local sem nome';
+                item.appendChild(titulo);
+
+                lista.appendChild(item);
+            });
+        } catch (erro) {
+            console.error(erro);
+            lista.textContent = 'Não foi possível carregar os locais.';
+        }
+    }
+
+    carregarLocais();
+</script>
+
 
 </body>
 </html>
