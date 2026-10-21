@@ -1,0 +1,26 @@
+{
+  "name": "projeto-upx",
+  "version": "1.0.0",
+  "description": "**Acessaí** é uma plataforma de acessibilidade que permite a pessoas com deficiência planejarem seus deslocamentos com mais segurança e autonomia. O sistema apresenta informações sobre a acessibilidade do destino e das rotas, considerando recursos como rampas, calçadas, transporte e outros obstáculos que possam impactar o trajeto.",
+  "main": "projeto.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rafael2201-dev/Acessa-.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Rafael2201-dev/Acessa-/issues"
+  },
+  "homepage": "https://github.com/Rafael2201-dev/Acessa-#readme",
+  "dependencies": {
+    "dotenv": "^18.0.8",
+    "express": "^5.3.0",
+    "mysql2": "^3.24.6"
+  }
+}
