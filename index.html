@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -19,7 +18,7 @@
         <section class="introducao">
             <h2>Seu destino, do seu jeito.</h2>
             <p>
-                Planeje seu caminho considerando suas
+                Encontre estabelecimentos considerando suas
                 necessidades de acessibilidade.
             </p>
         </section>
@@ -28,43 +27,34 @@
             <form id="formulario">
 
                 <label for="perfil">Qual é o seu perfil?</label>
-
                 <select id="perfil" required>
                     <option value="">Selecione uma opção</option>
-                    <option value="cadeira-rodas">
-                        Pessoa que usa cadeira de rodas
-                    </option>
-                    <option value="visual">
-                        Pessoa com deficiência visual
-                    </option>
-                    <option value="auditiva">
-                        Pessoa com deficiência auditiva
-                    </option>
-                    <option value="mobilidade">
-                        Pessoa com dificuldade de mobilidade
-                    </option>
-                    <option value="outras">
-                        Outras necessidades
-                    </option>
+                    <option value="cadeira-rodas">Pessoa que usa cadeira de rodas</option>
+                    <option value="visual">Pessoa com deficiência visual</option>
+                    <option value="auditiva">Pessoa com deficiência auditiva</option>
+                    <option value="mobilidade">Pessoa com dificuldade de mobilidade</option>
+                    <option value="outras">Outras necessidades</option>
                 </select>
 
-                <label for="destino">Para onde você quer ir?</label>
+                <label for="categoria">Que tipo de lugar você procura?</label>
+                <select id="categoria" required>
+                    <option value="">Selecione uma categoria</option>
+                    <option value="todas">Todas as categorias</option>
+                    <option value="restaurante">Restaurantes</option>
+                    <option value="farmácia">Farmácias</option>
+                    <option value="supermercado">Supermercados</option>
+                    <option value="banco">Bancos</option>
+                    <option value="shopping">Shoppings</option>
+                </select>
 
-                <input
-                    type="text"
-                    id="destino"
-                    placeholder="Ex.: restaurante, faculdade..."
-                    required
-                >
-
-                <button type="submit">
-                    Consultar acessibilidade
-                </button>
+                <button type="submit">Buscar locais</button>
 
             </form>
-
-            <p id="mensagem" role="status" aria-live="polite"></p>
         </section>
+
+        <!-- Aqui aparecem os resultados -->
+        <p id="mensagem" role="status" aria-live="polite"></p>
+        <section id="resultados"></section>
     </main>
 
     <footer>
@@ -73,62 +63,108 @@
 
     <script>
         const formulario = document.getElementById("formulario");
+        const mensagem = document.getElementById("mensagem");
+        const resultados = document.getElementById("resultados");
 
-        formulario.addEventListener("submit", function(event) {
+        // Nomes bonitos para mostrar na tela
+        const nomesDosPerfis = {
+            "cadeira-rodas": "cadeira de rodas",
+            "visual": "deficiência visual",
+            "auditiva": "deficiência auditiva",
+            "mobilidade": "mobilidade reduzida"
+        };
+
+        // Lê o arquivo locais.json e devolve a lista de locais
+        async function carregarLocais() {
+            const resposta = await fetch("locais.json");
+            if (!resposta.ok) {
+                throw new Error("Não foi possível ler o locais.json");
+            }
+            return await resposta.json();
+        }
+
+        // Fica só com os locais da categoria escolhida
+        function filtrarPorCategoria(locais, categoria) {
+            if (categoria === "todas") {
+                return locais;
+            }
+            return locais.filter(function (local) {
+                return local.categoria === categoria;
+            });
+        }
+
+        // Monta o cartão (HTML) de um local
+        function criarCartao(local, perfil) {
+            const cartao = document.createElement("article");
+            cartao.className = "cartao";
+
+            const titulo = document.createElement("h3");
+            titulo.textContent = local.nome;
+            cartao.appendChild(titulo);
+
+            const endereco = document.createElement("p");
+            endereco.className = "endereco";
+            endereco.textContent = local.endereco;
+            cartao.appendChild(endereco);
+
+            // Etiqueta dizendo se atende ao perfil escolhido
+            const etiqueta = document.createElement("p");
+            etiqueta.className = "etiqueta";
+
+            if (perfil === "outras") {
+                etiqueta.textContent = "Veja os recursos abaixo";
+                etiqueta.classList.add("neutro");
+            } else if (local.acessibilidade[perfil] === true) {
+                etiqueta.textContent = "✔ Atende: " + nomesDosPerfis[perfil];
+                etiqueta.classList.add("sim");
+            } else {
+                etiqueta.textContent = "✖ Não atende: " + nomesDosPerfis[perfil];
+                etiqueta.classList.add("nao");
+            }
+            cartao.appendChild(etiqueta);
+
+            // Lista de recursos (rampa, elevador...)
+            const lista = document.createElement("ul");
+            local.recursos.forEach(function (recurso) {
+                const item = document.createElement("li");
+                item.textContent = recurso;
+                lista.appendChild(item);
+            });
+            cartao.appendChild(lista);
+
+            return cartao;
+        }
+
+        formulario.addEventListener("submit", async function (event) {
             event.preventDefault();
 
             const perfil = document.getElementById("perfil").value;
-            const destino = document.getElementById("destino").value;
+            const categoria = document.getElementById("categoria").value;
 
-            document.getElementById("mensagem").textContent =
-                "Perfil selecionado: " + perfil +
-                ". Destino escolhido: " + destino;
+            resultados.replaceChildren();
+            mensagem.textContent = "Buscando...";
+
+            try {
+                const todos = await carregarLocais();
+                const encontrados = filtrarPorCategoria(todos, categoria);
+
+                if (encontrados.length === 0) {
+                    mensagem.textContent = "Nenhum local cadastrado nessa categoria ainda.";
+                    return;
+                }
+
+                mensagem.textContent = encontrados.length + " local(is) encontrado(s).";
+
+                encontrados.forEach(function (local) {
+                    resultados.appendChild(criarCartao(local, perfil));
+                });
+
+            } catch (erro) {
+                console.error(erro);
+                mensagem.textContent =
+                    "Não foi possível carregar os locais. Abra o site com o Live Server.";
+            }
         });
     </script>
-    
-<section>
-    <h2>Locais cadastrados</h2>
-    <div id="lista-locais">Carregando locais...</div>
-</section>
-
-<script>
-    async function carregarLocais() {
-        const lista = document.getElementById('lista-locais');
-
-        try {
-            const resposta = await fetch('/locais');
-
-            if (!resposta.ok) {
-                throw new Error('Erro ao buscar locais');
-            }
-
-            const locais = await resposta.json();
-
-            if (locais.length === 0) {
-                lista.textContent = 'Nenhum local cadastrado.';
-                return;
-            }
-
-            lista.replaceChildren();
-
-            locais.forEach(local => {
-                const item = document.createElement('article');
-                const titulo = document.createElement('h3');
-
-                titulo.textContent = local.nome ?? 'Local sem nome';
-                item.appendChild(titulo);
-
-                lista.appendChild(item);
-            });
-        } catch (erro) {
-            console.error(erro);
-            lista.textContent = 'Não foi possível carregar os locais.';
-        }
-    }
-
-    carregarLocais();
-</script>
-
-
 </body>
 </html>

@@ -1,0 +1,80 @@
+[
+  {
+    "id": 1,
+    "nome": "Restaurante Exemplo Centro",
+    "categoria": "restaurante",
+    "endereco": "Rua Exemplo, 100 - Centro, Sorocaba - SP",
+    "acessibilidade": {
+      "cadeira-rodas": true,
+      "visual": false,
+      "auditiva": true,
+      "mobilidade": true
+    },
+    "recursos": ["rampa na entrada", "banheiro adaptado", "mesas com espaço livre"]
+  },
+  {
+    "id": 2,
+    "nome": "Restaurante Exemplo Jardim",
+    "categoria": "restaurante",
+    "endereco": "Av. Exemplo, 250 - Jardim, Sorocaba - SP",
+    "acessibilidade": {
+      "cadeira-rodas": false,
+      "visual": false,
+      "auditiva": true,
+      "mobilidade": false
+    },
+    "recursos": ["degrau na entrada"]
+  },
+  {
+    "id": 3,
+    "nome": "Farmácia Exemplo Saúde",
+    "categoria": "farmácia",
+    "endereco": "Rua Modelo, 45 - Centro, Sorocaba - SP",
+    "acessibilidade": {
+      "cadeira-rodas": true,
+      "visual": true,
+      "auditiva": true,
+      "mobilidade": true
+    },
+    "recursos": ["entrada sem degraus", "piso tátil", "atendimento prioritário"]
+  },
+  {
+    "id": 4,
+    "nome": "Supermercado Exemplo Bom Preço",
+    "categoria": "supermercado",
+    "endereco": "Av. Modelo, 800 - Vila Nova, Sorocaba - SP",
+    "acessibilidade": {
+      "cadeira-rodas": true,
+      "visual": false,
+      "auditiva": true,
+      "mobilidade": true
+    },
+    "recursos": ["rampa", "corredores largos", "vaga reservada", "banheiro adaptado"]
+  },
+  {
+    "id": 5,
+    "nome": "Banco Exemplo Agência Central",
+    "categoria": "banco",
+    "endereco": "Praça Exemplo, 10 - Centro, Sorocaba - SP",
+    "acessibilidade": {
+      "cadeira-rodas": true,
+      "visual": true,
+      "auditiva": false,
+      "mobilidade": true
+    },
+    "recursos": ["rampa", "piso tátil", "caixa eletrônico acessível"]
+  },
+  {
+    "id": 6,
+    "nome": "Shopping Exemplo Plaza",
+    "categoria": "shopping",
+    "endereco": "Rod. Exemplo, km 5 - Sorocaba - SP",
+    "acessibilidade": {
+      "cadeira-rodas": true,
+      "visual": true,
+      "auditiva": true,
+      "mobilidade": true
+    },
+    "recursos": ["elevador", "rampa", "piso tátil", "banheiro adaptado", "vaga reservada"]
+  }
+]

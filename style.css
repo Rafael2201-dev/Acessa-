@@ -1,77 +1,136 @@
- * {
-            box-sizing: border-box;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f1f5f9;
-            color: #0f172a;
-        }
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
 
-        header {
-            background-color: #0f172a;
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
+header {
+    background-color: #0f172a;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
 
-        header h1 {
-            margin: 0;
-            color: #38bdf8;
-        }
+header h1 {
+    margin: 0;
+    color: #38bdf8;
+}
 
-        main {
-            width: 90%;
-            max-width: 600px;
-            margin: 40px auto;
-        }
+main {
+    width: 90%;
+    max-width: 600px;
+    margin: 40px auto;
+}
 
-        .introducao {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+.introducao {
+    text-align: center;
+    margin-bottom: 30px;
+}
 
-        .painel {
-            background-color: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px #00000010;
-        }
+.painel {
+    background-color: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px #00000010;
+}
 
-        label {
-            display: block;
-            font-weight: bold;
-            margin: 20px 0 8px;
-        }
+label {
+    display: block;
+    font-weight: bold;
+    margin: 20px 0 8px;
+}
 
-        select, input, button {
-            width: 100%;
-            padding: 14px;
-            border-radius: 8px;
-            font-size: 16px;
-        }
+select, input, button {
+    width: 100%;
+    padding: 14px;
+    border-radius: 8px;
+    font-size: 16px;
+}
 
-        select, input {
-            border: 1px solid #cbd5e1;
-            background-color: white;
-        }
+select, input {
+    border: 1px solid #cbd5e1;
+    background-color: white;
+}
 
-        button {
-            margin-top: 24px;
-            border: none;
-            background-color: #0284c7;
-            color: white;
-            font-weight: bold;
-            cursor: pointer;
-        }
+button {
+    margin-top: 24px;
+    border: none;
+    background-color: #0284c7;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-        button:hover {
-            background-color: #0369a1;
-        }
+button:hover {
+    background-color: #0369a1;
+}
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #64748b;
-        }
+/* Foco visível para quem navega pelo teclado */
+select:focus-visible, input:focus-visible, button:focus-visible {
+    outline: 3px solid #0f172a;
+    outline-offset: 2px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #64748b;
+}
+
+/* ---------- Resultados ---------- */
+
+#mensagem {
+    margin: 24px 0 12px;
+    font-weight: bold;
+}
+
+.cartao {
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px #00000010;
+    margin-bottom: 16px;
+}
+
+.cartao h3 {
+    margin: 0 0 4px;
+}
+
+.endereco {
+    margin: 0 0 12px;
+    color: #475569;
+}
+
+.etiqueta {
+    display: inline-block;
+    margin: 0 0 12px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.etiqueta.sim {
+    background-color: #dcfce7;
+    color: #14532d;
+}
+
+.etiqueta.nao {
+    background-color: #fee2e2;
+    color: #7f1d1d;
+}
+
+.etiqueta.neutro {
+    background-color: #e2e8f0;
+    color: #0f172a;
+}
+
+.cartao ul {
+    margin: 0;
+    padding-left: 20px;
+}
