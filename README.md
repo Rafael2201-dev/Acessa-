@@ -5,3 +5,4 @@ integrantes do projeto:
 - Matheus Miranda Peres
 - Rafael Ferreira Pinto
 - Sabrina Alves Andrade Pereira
+- Rafael Bueno Gonçalves
