@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acessaí - Acessibilidade para todos</title>
+
+    <!-- NOVO: Leaflet, biblioteca gratuita de mapas -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -61,6 +65,9 @@
         <p>Projeto Acessaí — Acessibilidade para todos.</p>
     </footer>
 
+    <!-- NOVO: o Leaflet precisa vir ANTES do nosso script -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <script>
         const formulario = document.getElementById("formulario");
         const mensagem = document.getElementById("mensagem");
@@ -91,6 +98,52 @@
             return locais.filter(function (local) {
                 return local.categoria === categoria;
             });
+        }
+
+        // NOVO: gera um ponto "aleatório" perto do centro de Sorocaba.
+        // Ele é calculado a partir do nome do local, então o mesmo local
+        // sempre cai no mesmo ponto (não muda a cada pesquisa).
+        // Se um dia o locais.json tiver "latitude" e "longitude",
+        // o mapa usa essas coordenadas de verdade.
+        function pontoAleatorio(texto) {
+            let numero = 0;
+            for (const letra of texto) {
+                numero = (numero * 31 + letra.charCodeAt(0)) >>> 0;
+            }
+
+            const a = (numero % 1000) / 1000;          // número entre 0 e 1
+            const b = ((numero >>> 10) % 1000) / 1000; // outro número entre 0 e 1
+
+            const latitude = -23.5015 + (a - 0.5) * 0.06;
+            const longitude = -47.4526 + (b - 0.5) * 0.06;
+            return [latitude, longitude];
+        }
+
+        // NOVO: desenha o mini mapa dentro da caixinha do cartão.
+        // Precisa ser chamada DEPOIS que o cartão já está na página.
+        function iniciarMapa(divMapa, local) {
+            // Se o Leaflet não carregou (sem internet), avisa em vez de quebrar
+            if (typeof L === "undefined") {
+                divMapa.textContent = "Mapa indisponível (verifique sua internet).";
+                return;
+            }
+
+            let latitude = parseFloat(local.latitude);
+            let longitude = parseFloat(local.longitude);
+
+            if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+                [latitude, longitude] = pontoAleatorio(local.nome);
+            }
+
+            const mapa = L.map(divMapa, { scrollWheelZoom: false })
+                .setView([latitude, longitude], 15);
+
+            L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                maxZoom: 19,
+                attribution: "&copy; OpenStreetMap"
+            }).addTo(mapa);
+
+            L.marker([latitude, longitude]).addTo(mapa).bindPopup(local.nome);
         }
 
         // Monta o cartão (HTML) de um local
@@ -132,6 +185,13 @@
             });
             cartao.appendChild(lista);
 
+            // NOVO: caixinha onde o mini mapa vai aparecer (no fim do cartão)
+            const divMapa = document.createElement("div");
+            divMapa.className = "mini-mapa";
+            divMapa.setAttribute("role", "img");
+            divMapa.setAttribute("aria-label", "Mapa com a localização de " + local.nome);
+            cartao.appendChild(divMapa);
+
             return cartao;
         }
 
@@ -156,7 +216,11 @@
                 mensagem.textContent = encontrados.length + " local(is) encontrado(s).";
 
                 encontrados.forEach(function (local) {
-                    resultados.appendChild(criarCartao(local, perfil));
+                    const cartao = criarCartao(local, perfil);
+                    resultados.appendChild(cartao); // primeiro entra na página...
+
+                    // NOVO: ...e só depois desenhamos o mapa dentro dele
+                    iniciarMapa(cartao.querySelector(".mini-mapa"), local);
                 });
 
             } catch (erro) {
